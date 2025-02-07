@@ -49,3 +49,23 @@ SETUP:
     CLRF COUNT5
     CLRF COUNT6
     GOTO MAIN
+
+    
+DELAY:
+    
+    RETURN
+    
+
+MAIN:
+    MOVLW H'35'		;WRITE 5 TO THE DISPLAY
+    MOVWF PORTC
+    
+    CALL DELAY
+        
+    MOVLW H'30'		;WRITE 0 TO THE DISPLAY
+    MOVWF PORTC
+    
+    CALL DELAY
+    
+    GOTO MAIN		;LOOP INDEFINITELY
+    END
