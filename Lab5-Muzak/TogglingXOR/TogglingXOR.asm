@@ -1,6 +1,6 @@
 ;******************************************************************************
 ; *
-; Filename: FileName.asm *
+; Filename: TogglingXOR.asm *
 ; Date: February 14, 2025 *
 ; Author: Andrew Keller *
 ; Company: Idaho State University *
