@@ -11,6 +11,8 @@
   
     INCLUDE PIC16F883TestingSetup.inc
     
+    ;#####____TODO ADD CONFIGURATION BITS____#####
+    
     ORG H'000'
     GOTO SETUP
     
@@ -25,6 +27,6 @@ INTERRUPT:
     RETFIE
     
 MAIN:
-
+    
     GOTO MAIN
     END
