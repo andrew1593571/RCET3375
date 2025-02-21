@@ -9,4 +9,22 @@
 ; *
 ;******************************************************************************
   
+    INCLUDE PIC16F883TestingSetup.inc
+    
+    ORG H'000'
+    GOTO SETUP
+    
+    ORG H'004'
+    GOTO INTERRUPT
+    
+SETUP:
+    CALL INITIALIZE	    ;CALLS THE INITIALIZE SUBROUTINE IN INCLUDE FILE
+    GOTO MAIN
+    
+INTERRUPT:
+    RETFIE
+    
+MAIN:
 
+    GOTO MAIN
+    END

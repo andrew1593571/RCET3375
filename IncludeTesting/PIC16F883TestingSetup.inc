@@ -26,7 +26,7 @@
 
 ;***********************************************
 ;DEFINE PIN/BIT LABELS
-;***********************************************
+;******************se*****************************
 
 ;DEFINE PINS HERE
 
@@ -35,10 +35,15 @@
 ;INITIALIZE PIC16F883 AND SETUP
 ;***********************************************
 
-INITIALIZE
+SETUP_CODE CODE	    ;START OF THE FILE
+    
+INITIALIZE:
+    GOTO INITIALIZE
 
 ;----------PORTA CONFIGURATION----------
 
 ;----------PORTB CONFIGURATION----------
 
 ;----------PORTC CONFIGURATION----------
+    
+    RETURN
