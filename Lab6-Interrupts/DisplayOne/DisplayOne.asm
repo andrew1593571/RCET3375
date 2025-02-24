@@ -9,7 +9,7 @@
 ; *
 ;******************************************************************************
   
-    INCLUDE PIC16F883DisplayOneSetup.inc
+    INCLUDE "PIC16F883DisplayOneSetup.inc"
     #include "p16f883.inc"
 
 ; CONFIG1
@@ -27,6 +27,7 @@
     
 SETUP:
     CALL INITIALIZE	    ;CALLS THE INITIALIZE SUBROUTINE IN INCLUDE FILE
+    BANKSEL PORTC
     GOTO MAIN
     
 INTERRUPT:
