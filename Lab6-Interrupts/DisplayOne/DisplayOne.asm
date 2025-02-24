@@ -9,7 +9,7 @@
 ; *
 ;******************************************************************************
   
-    INCLUDE PIC16F883Lab6Interrupts.inc
+    INCLUDE PIC16F883DisplayOneSetup.inc
     #include "p16f883.inc"
 
 ; CONFIG1
