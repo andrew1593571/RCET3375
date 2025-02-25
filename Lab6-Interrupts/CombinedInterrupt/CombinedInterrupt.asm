@@ -58,6 +58,8 @@ DISPLAYSIX:
     RETFIE
     
 MAIN:
+    MOVLW H'31'
+    MOVWF PORTC
     
     GOTO MAIN
     END
