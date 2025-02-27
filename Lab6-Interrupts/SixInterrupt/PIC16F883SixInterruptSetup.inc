@@ -8,7 +8,6 @@
 ; Github: https://github.com/andrew1593571/RCET3375.git *
 ; *
 ;******************************************************************************
-  
 
 ;***********************************************
 ;DEFINE GENERAL FUNCTION REGISTERS
@@ -19,22 +18,6 @@ STORESTATUS EQU H'21'	    ;USED TO STORE STATUS DURING INTERRUPT
 SIXCOUNTA EQU H'22'	    ;SIX DELAY COUNTA
 SIXCOUNTB EQU H'23'	    ;SIX DELAY COUNTB
 SIXCOUNTC EQU H'24'	    ;SIX DELAY COUNTC
-
-
-;***********************************************
-;DEFINE CONSTANTS
-;***********************************************
-
-;CONSTANTNAME EQU H'00'    ;COMMENT HERE
-
-
-;***********************************************
-;DEFINE PIN/BIT LABELS
-;******************se*****************************
-
-;PINNAME EQU H'000X'	;COMMENT HERE
-    ;USE THESE BIT NAMES BY USING "REGISTERNAME, PINNAME" IN OPERANDS
-
 
 ;***********************************************
 ;INITIALIZE PIC16F883 AND SETUP
