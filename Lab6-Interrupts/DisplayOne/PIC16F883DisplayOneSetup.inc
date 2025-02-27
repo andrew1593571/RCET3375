@@ -8,29 +8,6 @@
 ; Github: https://github.com/andrew1593571/RCET3375.git *
 ; *
 ;******************************************************************************
-  
-
-;***********************************************
-;DEFINE GENERAL FUNCTION REGISTERS
-;***********************************************
-
-;REGISTERNAME EQU H'0020;    ;COMMENT HERE
-
-
-;***********************************************
-;DEFINE CONSTANTS
-;***********************************************
-
-;CONSTANTNAME EQU H'00'    ;COMMENT HERE
-
-
-;***********************************************
-;DEFINE PIN/BIT LABELS
-;******************se*****************************
-
-;PINNAME EQU H'000X'	;COMMENT HERE
-    ;USE THESE BIT NAMES BY USING "REGISTERNAME, PINNAME" IN OPERANDS
-
 
 ;***********************************************
 ;INITIALIZE PIC16F883 AND SETUP
