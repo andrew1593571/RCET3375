@@ -9,7 +9,6 @@
 ; *
 ;******************************************************************************
   
-
 ;***********************************************
 ;DEFINE GENERAL FUNCTION REGISTERS
 ;***********************************************
@@ -29,22 +28,7 @@ SIXCOUNTC EQU H'2B'	    ;SIX DELAY COUNTC
 STOREPORTC_SEVEN EQU H'2C'  ;STORE PORTC DURING SEVEN INTERRUPT
 INTFLAG EQU H'2D'	    ;STORE IF AN INTERRUPT IS CURRENTLY RUNNING
 
-
-;***********************************************
-;DEFINE CONSTANTS
-;***********************************************
-
-;CONSTANTNAME EQU H'00'    ;COMMENT HERE
-
-
-;***********************************************
-;DEFINE PIN/BIT LABELS
-;***********************************************
-
-;PINNAME EQU H'000X'	;COMMENT HERE
-    ;USE THESE BIT NAMES BY USING "REGISTERNAME, PINNAME" IN OPERANDS
-
-
+ 
 ;***********************************************
 ;INITIALIZE PIC16F883 AND SETUP
 ;***********************************************
@@ -98,6 +82,6 @@ INITIALIZE:
     MOVLW B'10001000'	;CONFIGURE INTERRUPT CONTROL REGISTER
     MOVWF INTCON
     BANKSEL INTFLAG
-    CLRF INTFLAG
+    CLRF INTFLAG	;CLEAR THE INTERRUPT FLAG GENERAL REGISTER
     
     RETURN
