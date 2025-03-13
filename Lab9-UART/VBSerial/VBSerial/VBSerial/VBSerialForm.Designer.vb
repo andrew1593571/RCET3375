@@ -33,8 +33,9 @@ Partial Class VBSerialForm
         Me.ReceivedGroupBox = New System.Windows.Forms.GroupBox()
         Me.ReceivedListBox = New System.Windows.Forms.ListBox()
         Me.CommandGroupBox = New System.Windows.Forms.GroupBox()
-        Me.SendHexButton = New System.Windows.Forms.Button()
         Me.HexCommandTextBox = New System.Windows.Forms.TextBox()
+        Me.SendHexButton = New System.Windows.Forms.Button()
+        Me.ReceivedDataDisplay = New System.Windows.Forms.Timer(Me.components)
         Me.StatusStrip.SuspendLayout()
         Me.SerialSetupGroupBox.SuspendLayout()
         Me.ReceivedGroupBox.SuspendLayout()
@@ -85,6 +86,9 @@ Partial Class VBSerialForm
         Me.SerialPortComboBox.Size = New System.Drawing.Size(124, 21)
         Me.SerialPortComboBox.TabIndex = 2
         '
+        'SerialPort
+        '
+        '
         'SerialPortRefreshTimer
         '
         Me.SerialPortRefreshTimer.Interval = 500
@@ -118,6 +122,14 @@ Partial Class VBSerialForm
         Me.CommandGroupBox.TabStop = False
         Me.CommandGroupBox.Text = "Manual Send Hex"
         '
+        'HexCommandTextBox
+        '
+        Me.HexCommandTextBox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.HexCommandTextBox.Location = New System.Drawing.Point(6, 19)
+        Me.HexCommandTextBox.Name = "HexCommandTextBox"
+        Me.HexCommandTextBox.Size = New System.Drawing.Size(124, 20)
+        Me.HexCommandTextBox.TabIndex = 4
+        '
         'SendHexButton
         '
         Me.SendHexButton.Location = New System.Drawing.Point(136, 19)
@@ -127,13 +139,10 @@ Partial Class VBSerialForm
         Me.SendHexButton.Text = "Send"
         Me.SendHexButton.UseVisualStyleBackColor = True
         '
-        'HexCommandTextBox
+        'ReceivedDataDisplay
         '
-        Me.HexCommandTextBox.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.HexCommandTextBox.Location = New System.Drawing.Point(6, 19)
-        Me.HexCommandTextBox.Name = "HexCommandTextBox"
-        Me.HexCommandTextBox.Size = New System.Drawing.Size(124, 20)
-        Me.HexCommandTextBox.TabIndex = 4
+        Me.ReceivedDataDisplay.Enabled = True
+        Me.ReceivedDataDisplay.Interval = 5
         '
         'VBSerialForm
         '
@@ -170,4 +179,5 @@ Partial Class VBSerialForm
     Friend WithEvents CommandGroupBox As GroupBox
     Friend WithEvents SendHexButton As Button
     Friend WithEvents HexCommandTextBox As TextBox
+    Friend WithEvents ReceivedDataDisplay As Timer
 End Class

@@ -3,6 +3,8 @@ Option Strict On
 Option Compare Text
 
 Public Class VBSerialForm
+    Private receivedData As New Queue
+
     ''' <summary>
     ''' Initialize the form. Starts the available serial port name refresh timer.
     ''' Sets the SerialComStatusLabel to disconnected from current port.
@@ -104,11 +106,37 @@ Public Class VBSerialForm
         Else
             For i = 0 To hexArray.Length - 1
                 byteArray(i) = CByte(Convert.ToInt32(hexArray(i), 16))
-                message &= byteArray(i) & vbNewLine
+                message &= Convert.ToString(byteArray(i), 2) & vbNewLine
             Next
-            MsgBox(message)
+            If SerialPort.IsOpen Then
+                SerialPort.Write(byteArray, 0, byteArray.Length)
+            End If
+            'MsgBox(message)
             'MsgBox(Convert.ToInt32(HexCommandTextBox.Text, 16))
             'MsgBox(CByte(Convert.ToInt32(HexCommandTextBox.Text, 16)))
+        End If
+    End Sub
+
+    Private Sub SerialPort_DataReceived(sender As Object, e As IO.Ports.SerialDataReceivedEventArgs) Handles SerialPort.DataReceived
+        Dim numberofBytes = SerialPort.BytesToRead
+        Dim bytes(numberofBytes - 1) As Byte
+
+        SerialPort.Read(bytes, 0, numberofBytes)
+        'MsgBox("received")
+
+        For Each receivedByte In bytes
+            Me.receivedData.Enqueue(receivedByte)
+            'additem(receivedByte.ToString)
+        Next
+
+    End Sub
+
+    Private Sub ReceivedDataDisplay_Tick(sender As Object, e As EventArgs) Handles ReceivedDataDisplay.Tick
+        If receivedData.Count <> 0 Then
+            For i = 0 To receivedData.Count - 1
+                ReceivedListBox.Items.Add(receivedData.Dequeue)
+            Next
+            ReceivedListBox.SelectedIndex = ReceivedListBox.Items.Count - 1
         End If
     End Sub
 End Class
