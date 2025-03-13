@@ -73,7 +73,9 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="VBSerialForm.vb" />
+    <Compile Include="VBSerialForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="VBSerialForm.Designer.vb">
       <DependentUpon>VBSerialForm.vb</DependentUpon>
       <SubType>Form</SubType>
