@@ -36,10 +36,15 @@ Partial Class VBSerialForm
         Me.HexCommandTextBox = New System.Windows.Forms.TextBox()
         Me.SendHexButton = New System.Windows.Forms.Button()
         Me.ReceivedDataDisplayTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.ServoGroupBox = New System.Windows.Forms.GroupBox()
+        Me.ServoTrackBar = New System.Windows.Forms.TrackBar()
+        Me.ServoPositionLabel = New System.Windows.Forms.Label()
         Me.StatusStrip.SuspendLayout()
         Me.SerialSetupGroupBox.SuspendLayout()
         Me.ReceivedGroupBox.SuspendLayout()
         Me.CommandGroupBox.SuspendLayout()
+        Me.ServoGroupBox.SuspendLayout()
+        CType(Me.ServoTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'StatusStrip
@@ -101,7 +106,7 @@ Partial Class VBSerialForm
         Me.ReceivedGroupBox.Size = New System.Drawing.Size(229, 162)
         Me.ReceivedGroupBox.TabIndex = 2
         Me.ReceivedGroupBox.TabStop = False
-        Me.ReceivedGroupBox.Text = "COM Port"
+        Me.ReceivedGroupBox.Text = "Received Hex"
         '
         'ReceivedListBox
         '
@@ -144,11 +149,47 @@ Partial Class VBSerialForm
         Me.ReceivedDataDisplayTimer.Enabled = True
         Me.ReceivedDataDisplayTimer.Interval = 5
         '
+        'ServoGroupBox
+        '
+        Me.ServoGroupBox.Controls.Add(Me.ServoPositionLabel)
+        Me.ServoGroupBox.Controls.Add(Me.ServoTrackBar)
+        Me.ServoGroupBox.Location = New System.Drawing.Point(12, 136)
+        Me.ServoGroupBox.Name = "ServoGroupBox"
+        Me.ServoGroupBox.Size = New System.Drawing.Size(229, 72)
+        Me.ServoGroupBox.TabIndex = 4
+        Me.ServoGroupBox.TabStop = False
+        Me.ServoGroupBox.Text = "Servo Position"
+        '
+        'ServoTrackBar
+        '
+        Me.ServoTrackBar.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ServoTrackBar.LargeChange = 100
+        Me.ServoTrackBar.Location = New System.Drawing.Point(6, 19)
+        Me.ServoTrackBar.Maximum = 255
+        Me.ServoTrackBar.Name = "ServoTrackBar"
+        Me.ServoTrackBar.Size = New System.Drawing.Size(217, 45)
+        Me.ServoTrackBar.TabIndex = 5
+        Me.ServoTrackBar.TickFrequency = 10
+        '
+        'ServoPositionLabel
+        '
+        Me.ServoPositionLabel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ServoPositionLabel.Location = New System.Drawing.Point(6, 49)
+        Me.ServoPositionLabel.Name = "ServoPositionLabel"
+        Me.ServoPositionLabel.Size = New System.Drawing.Size(217, 15)
+        Me.ServoPositionLabel.TabIndex = 5
+        Me.ServoPositionLabel.Text = "0"
+        Me.ServoPositionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'VBSerialForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.Controls.Add(Me.ServoGroupBox)
         Me.Controls.Add(Me.CommandGroupBox)
         Me.Controls.Add(Me.ReceivedGroupBox)
         Me.Controls.Add(Me.SerialSetupGroupBox)
@@ -162,6 +203,9 @@ Partial Class VBSerialForm
         Me.ReceivedGroupBox.ResumeLayout(False)
         Me.CommandGroupBox.ResumeLayout(False)
         Me.CommandGroupBox.PerformLayout()
+        Me.ServoGroupBox.ResumeLayout(False)
+        Me.ServoGroupBox.PerformLayout()
+        CType(Me.ServoTrackBar, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -180,4 +224,7 @@ Partial Class VBSerialForm
     Friend WithEvents SendHexButton As Button
     Friend WithEvents HexCommandTextBox As TextBox
     Friend WithEvents ReceivedDataDisplayTimer As Timer
+    Friend WithEvents ServoGroupBox As GroupBox
+    Friend WithEvents ServoTrackBar As TrackBar
+    Friend WithEvents ServoPositionLabel As Label
 End Class

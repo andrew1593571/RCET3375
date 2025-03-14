@@ -5,6 +5,26 @@ Option Compare Text
 Public Class VBSerialForm
     Private receivedData As New Queue
 
+    Sub MoveServo(position As Integer)
+        Dim controlbytes(1) As Byte
+        controlbytes(0) = &H24
+
+        Select Case position
+            Case > 255
+                controlbytes(1) = CByte(255)
+            Case < 0
+                controlbytes(1) = CByte(0)
+            Case Else
+                controlbytes(1) = CByte(position)
+        End Select
+
+        'If the serial port is open, command the servo
+        If SerialPort.IsOpen Then
+            SerialPort.Write(controlbytes, 0, 2)
+        End If
+
+    End Sub
+
     ''' <summary>
     ''' Initialize the form. Starts the available serial port name refresh timer.
     ''' Sets the SerialComStatusLabel to disconnected from current port.
@@ -41,6 +61,7 @@ Public Class VBSerialForm
                 SerialPort.Open()
                 ConnectDisconnectButton.Text = "Disconnect"
                 SerialComStatusLabel.Text = $"Connected to {SerialPort.PortName}"
+                MoveServo(ServoTrackBar.Value)
             Catch ex As Exception
                 MsgBox($"Failed to connect on {SerialPort.PortName}.{vbNewLine}{vbNewLine}Please select a valid COM port.")
             End Try
@@ -110,6 +131,8 @@ Public Class VBSerialForm
             Next
             If SerialPort.IsOpen Then
                 SerialPort.Write(byteArray, 0, byteArray.Length)
+            Else
+                MsgBox("Unable to send command. Please Connect to COM device.")
             End If
             'MsgBox(message)
             'MsgBox(Convert.ToInt32(HexCommandTextBox.Text, 16))
@@ -141,5 +164,10 @@ Public Class VBSerialForm
             Next
             ReceivedListBox.SelectedIndex = ReceivedListBox.Items.Count - 1
         End If
+    End Sub
+
+    Private Sub ServoTrackBar_Scroll(sender As Object, e As EventArgs) Handles ServoTrackBar.Scroll
+        ServoPositionLabel.Text = CStr(ServoTrackBar.Value)
+        MoveServo(ServoTrackBar.Value)
     End Sub
 End Class
