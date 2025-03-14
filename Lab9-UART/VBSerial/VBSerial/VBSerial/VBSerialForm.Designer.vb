@@ -165,7 +165,7 @@ Partial Class VBSerialForm
         Me.ServoTrackBar.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ServoTrackBar.LargeChange = 100
+        Me.ServoTrackBar.LargeChange = 10
         Me.ServoTrackBar.Location = New System.Drawing.Point(6, 19)
         Me.ServoTrackBar.Maximum = 255
         Me.ServoTrackBar.Name = "ServoTrackBar"
