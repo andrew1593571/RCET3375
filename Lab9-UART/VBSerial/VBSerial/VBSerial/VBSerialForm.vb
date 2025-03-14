@@ -131,10 +131,13 @@ Public Class VBSerialForm
 
     End Sub
 
-    Private Sub ReceivedDataDisplay_Tick(sender As Object, e As EventArgs) Handles ReceivedDataDisplay.Tick
+    Private Sub ReceivedDataDisplayTimer_Tick(sender As Object, e As EventArgs) Handles ReceivedDataDisplayTimer.Tick
         If receivedData.Count <> 0 Then
             For i = 0 To receivedData.Count - 1
-                ReceivedListBox.Items.Add(receivedData.Dequeue)
+                ReceivedListBox.Items.Add(Hex(receivedData.Dequeue))
+                If ReceivedListBox.Items.Count > 10 Then
+                    ReceivedListBox.Items.RemoveAt(0)
+                End If
             Next
             ReceivedListBox.SelectedIndex = ReceivedListBox.Items.Count - 1
         End If

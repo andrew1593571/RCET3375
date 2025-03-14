@@ -35,7 +35,7 @@ Partial Class VBSerialForm
         Me.CommandGroupBox = New System.Windows.Forms.GroupBox()
         Me.HexCommandTextBox = New System.Windows.Forms.TextBox()
         Me.SendHexButton = New System.Windows.Forms.Button()
-        Me.ReceivedDataDisplay = New System.Windows.Forms.Timer(Me.components)
+        Me.ReceivedDataDisplayTimer = New System.Windows.Forms.Timer(Me.components)
         Me.StatusStrip.SuspendLayout()
         Me.SerialSetupGroupBox.SuspendLayout()
         Me.ReceivedGroupBox.SuspendLayout()
@@ -139,10 +139,10 @@ Partial Class VBSerialForm
         Me.SendHexButton.Text = "Send"
         Me.SendHexButton.UseVisualStyleBackColor = True
         '
-        'ReceivedDataDisplay
+        'ReceivedDataDisplayTimer
         '
-        Me.ReceivedDataDisplay.Enabled = True
-        Me.ReceivedDataDisplay.Interval = 5
+        Me.ReceivedDataDisplayTimer.Enabled = True
+        Me.ReceivedDataDisplayTimer.Interval = 5
         '
         'VBSerialForm
         '
@@ -179,5 +179,5 @@ Partial Class VBSerialForm
     Friend WithEvents CommandGroupBox As GroupBox
     Friend WithEvents SendHexButton As Button
     Friend WithEvents HexCommandTextBox As TextBox
-    Friend WithEvents ReceivedDataDisplay As Timer
+    Friend WithEvents ReceivedDataDisplayTimer As Timer
 End Class
