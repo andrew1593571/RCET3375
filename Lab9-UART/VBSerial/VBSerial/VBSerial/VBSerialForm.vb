@@ -5,22 +5,23 @@ Option Compare Text
 Public Class VBSerialForm
     Private receivedData As New Queue
 
-    Sub MoveServo(position As Integer)
-        Dim controlbytes(1) As Byte
+    Sub ControlPIC(servoPosition As Integer)
+        Dim controlbytes(2) As Byte
         controlbytes(0) = &H24
+        controlbytes(2) = &H51 'special command byte for requesting ADC values
 
-        Select Case position
+        Select Case servoPosition
             Case > 255
                 controlbytes(1) = CByte(255)
             Case < 0
                 controlbytes(1) = CByte(0)
             Case Else
-                controlbytes(1) = CByte(position)
+                controlbytes(1) = CByte(servoPosition)
         End Select
 
         'If the serial port is open, command the servo
         If SerialPort.IsOpen Then
-            SerialPort.Write(controlbytes, 0, 2)
+            SerialPort.Write(controlbytes, 0, 3)
         End If
 
     End Sub
@@ -61,7 +62,7 @@ Public Class VBSerialForm
                 SerialPort.Open()
                 ConnectDisconnectButton.Text = "Disconnect"
                 SerialComStatusLabel.Text = $"Connected to {SerialPort.PortName}"
-                MoveServo(ServoTrackBar.Value)
+                ControlPIC(ServoTrackBar.Value)
             Catch ex As Exception
                 MsgBox($"Failed to connect on {SerialPort.PortName}.{vbNewLine}{vbNewLine}Please select a valid COM port.")
             End Try
@@ -168,6 +169,6 @@ Public Class VBSerialForm
 
     Private Sub ServoTrackBar_Scroll(sender As Object, e As EventArgs) Handles ServoTrackBar.Scroll
         ServoPositionLabel.Text = CStr(ServoTrackBar.Value)
-        MoveServo(ServoTrackBar.Value)
+        ControlPIC(ServoTrackBar.Value)
     End Sub
 End Class
