@@ -29,30 +29,35 @@ Partial Class VBSerialForm
         Me.ConnectDisconnectButton = New System.Windows.Forms.Button()
         Me.SerialPortComboBox = New System.Windows.Forms.ComboBox()
         Me.SerialPort = New System.IO.Ports.SerialPort(Me.components)
-        Me.SerialPortRefreshTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.AvailableCOMRefreshTimer = New System.Windows.Forms.Timer(Me.components)
         Me.ReceivedGroupBox = New System.Windows.Forms.GroupBox()
         Me.ReceivedListBox = New System.Windows.Forms.ListBox()
         Me.CommandGroupBox = New System.Windows.Forms.GroupBox()
         Me.HexCommandTextBox = New System.Windows.Forms.TextBox()
         Me.SendHexButton = New System.Windows.Forms.Button()
-        Me.ReceivedDataDisplayTimer = New System.Windows.Forms.Timer(Me.components)
+        Me.SerialDataUpdateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.ServoGroupBox = New System.Windows.Forms.GroupBox()
-        Me.ServoTrackBar = New System.Windows.Forms.TrackBar()
         Me.ServoPositionLabel = New System.Windows.Forms.Label()
+        Me.ServoTrackBar = New System.Windows.Forms.TrackBar()
+        Me.AnalogGroupBox = New System.Windows.Forms.GroupBox()
+        Me.AnalogVoltageLabel = New System.Windows.Forms.Label()
+        Me.AnalogLabel = New System.Windows.Forms.Label()
+        Me.TemperatureLabel = New System.Windows.Forms.Label()
         Me.StatusStrip.SuspendLayout()
         Me.SerialSetupGroupBox.SuspendLayout()
         Me.ReceivedGroupBox.SuspendLayout()
         Me.CommandGroupBox.SuspendLayout()
         Me.ServoGroupBox.SuspendLayout()
         CType(Me.ServoTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.AnalogGroupBox.SuspendLayout()
         Me.SuspendLayout()
         '
         'StatusStrip
         '
         Me.StatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SerialComStatusLabel})
-        Me.StatusStrip.Location = New System.Drawing.Point(0, 428)
+        Me.StatusStrip.Location = New System.Drawing.Point(0, 283)
         Me.StatusStrip.Name = "StatusStrip"
-        Me.StatusStrip.Size = New System.Drawing.Size(800, 22)
+        Me.StatusStrip.Size = New System.Drawing.Size(483, 22)
         Me.StatusStrip.TabIndex = 0
         Me.StatusStrip.Text = "StatusStrip1"
         '
@@ -94,9 +99,9 @@ Partial Class VBSerialForm
         'SerialPort
         '
         '
-        'SerialPortRefreshTimer
+        'AvailableCOMRefreshTimer
         '
-        Me.SerialPortRefreshTimer.Interval = 500
+        Me.AvailableCOMRefreshTimer.Interval = 500
         '
         'ReceivedGroupBox
         '
@@ -144,10 +149,10 @@ Partial Class VBSerialForm
         Me.SendHexButton.Text = "Send"
         Me.SendHexButton.UseVisualStyleBackColor = True
         '
-        'ReceivedDataDisplayTimer
+        'SerialDataUpdateTimer
         '
-        Me.ReceivedDataDisplayTimer.Enabled = True
-        Me.ReceivedDataDisplayTimer.Interval = 5
+        Me.SerialDataUpdateTimer.Enabled = True
+        Me.SerialDataUpdateTimer.Interval = 50
         '
         'ServoGroupBox
         '
@@ -159,6 +164,17 @@ Partial Class VBSerialForm
         Me.ServoGroupBox.TabIndex = 4
         Me.ServoGroupBox.TabStop = False
         Me.ServoGroupBox.Text = "Servo Position"
+        '
+        'ServoPositionLabel
+        '
+        Me.ServoPositionLabel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ServoPositionLabel.Location = New System.Drawing.Point(6, 49)
+        Me.ServoPositionLabel.Name = "ServoPositionLabel"
+        Me.ServoPositionLabel.Size = New System.Drawing.Size(217, 15)
+        Me.ServoPositionLabel.TabIndex = 5
+        Me.ServoPositionLabel.Text = "0"
+        Me.ServoPositionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'ServoTrackBar
         '
@@ -173,22 +189,51 @@ Partial Class VBSerialForm
         Me.ServoTrackBar.TabIndex = 5
         Me.ServoTrackBar.TickFrequency = 10
         '
-        'ServoPositionLabel
+        'AnalogGroupBox
         '
-        Me.ServoPositionLabel.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.ServoPositionLabel.Location = New System.Drawing.Point(6, 49)
-        Me.ServoPositionLabel.Name = "ServoPositionLabel"
-        Me.ServoPositionLabel.Size = New System.Drawing.Size(217, 15)
-        Me.ServoPositionLabel.TabIndex = 5
-        Me.ServoPositionLabel.Text = "0"
-        Me.ServoPositionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.AnalogGroupBox.Controls.Add(Me.TemperatureLabel)
+        Me.AnalogGroupBox.Controls.Add(Me.AnalogVoltageLabel)
+        Me.AnalogGroupBox.Controls.Add(Me.AnalogLabel)
+        Me.AnalogGroupBox.Location = New System.Drawing.Point(247, 180)
+        Me.AnalogGroupBox.Name = "AnalogGroupBox"
+        Me.AnalogGroupBox.Size = New System.Drawing.Size(229, 94)
+        Me.AnalogGroupBox.TabIndex = 5
+        Me.AnalogGroupBox.TabStop = False
+        Me.AnalogGroupBox.Text = "Received Temperature Value"
+        '
+        'AnalogVoltageLabel
+        '
+        Me.AnalogVoltageLabel.Location = New System.Drawing.Point(6, 39)
+        Me.AnalogVoltageLabel.Name = "AnalogVoltageLabel"
+        Me.AnalogVoltageLabel.Size = New System.Drawing.Size(217, 23)
+        Me.AnalogVoltageLabel.TabIndex = 1
+        Me.AnalogVoltageLabel.Text = "Not Received"
+        Me.AnalogVoltageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'AnalogLabel
+        '
+        Me.AnalogLabel.Location = New System.Drawing.Point(6, 16)
+        Me.AnalogLabel.Name = "AnalogLabel"
+        Me.AnalogLabel.Size = New System.Drawing.Size(217, 23)
+        Me.AnalogLabel.TabIndex = 0
+        Me.AnalogLabel.Text = "Not Received"
+        Me.AnalogLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'TemperatureLabel
+        '
+        Me.TemperatureLabel.Location = New System.Drawing.Point(6, 62)
+        Me.TemperatureLabel.Name = "TemperatureLabel"
+        Me.TemperatureLabel.Size = New System.Drawing.Size(217, 23)
+        Me.TemperatureLabel.TabIndex = 2
+        Me.TemperatureLabel.Text = "Not Received"
+        Me.TemperatureLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'VBSerialForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(483, 305)
+        Me.Controls.Add(Me.AnalogGroupBox)
         Me.Controls.Add(Me.ServoGroupBox)
         Me.Controls.Add(Me.CommandGroupBox)
         Me.Controls.Add(Me.ReceivedGroupBox)
@@ -206,6 +251,7 @@ Partial Class VBSerialForm
         Me.ServoGroupBox.ResumeLayout(False)
         Me.ServoGroupBox.PerformLayout()
         CType(Me.ServoTrackBar, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.AnalogGroupBox.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -216,15 +262,19 @@ Partial Class VBSerialForm
     Friend WithEvents SerialSetupGroupBox As GroupBox
     Friend WithEvents SerialPortComboBox As ComboBox
     Friend WithEvents SerialPort As IO.Ports.SerialPort
-    Friend WithEvents SerialPortRefreshTimer As Timer
+    Friend WithEvents AvailableCOMRefreshTimer As Timer
     Friend WithEvents ConnectDisconnectButton As Button
     Friend WithEvents ReceivedGroupBox As GroupBox
     Friend WithEvents ReceivedListBox As ListBox
     Friend WithEvents CommandGroupBox As GroupBox
     Friend WithEvents SendHexButton As Button
     Friend WithEvents HexCommandTextBox As TextBox
-    Friend WithEvents ReceivedDataDisplayTimer As Timer
+    Friend WithEvents SerialDataUpdateTimer As Timer
     Friend WithEvents ServoGroupBox As GroupBox
     Friend WithEvents ServoTrackBar As TrackBar
     Friend WithEvents ServoPositionLabel As Label
+    Friend WithEvents AnalogGroupBox As GroupBox
+    Friend WithEvents AnalogLabel As Label
+    Friend WithEvents AnalogVoltageLabel As Label
+    Friend WithEvents TemperatureLabel As Label
 End Class

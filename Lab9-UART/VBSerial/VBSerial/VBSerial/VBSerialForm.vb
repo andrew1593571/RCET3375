@@ -3,7 +3,7 @@ Option Strict On
 Option Compare Text
 
 Public Class VBSerialForm
-    Private receivedData As New Queue
+    Private receivedData As New Queue(Of Byte)
 
     Sub ControlPIC(servoPosition As Integer)
         Dim controlbytes(2) As Byte
@@ -34,7 +34,7 @@ Public Class VBSerialForm
     ''' <param name="sender"></param>
     ''' <param name="e"></param>
     Private Sub VBSerialForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        SerialPortRefreshTimer.Start()
+        AvailableCOMRefreshTimer.Start()
         SerialComStatusLabel.Text = $"Disconnected from {SerialPort.PortName}"
         SerialPort.BaudRate = 9600
         SerialPort.DataBits = 8
@@ -42,7 +42,7 @@ Public Class VBSerialForm
         SerialPort.Parity = IO.Ports.Parity.None
     End Sub
 
-    Private Sub SerialPortRefreshTimer_Tick(sender As Object, e As EventArgs) Handles SerialPortRefreshTimer.Tick
+    Private Sub AvailableCOMRefreshTimer_Tick(sender As Object, e As EventArgs) Handles AvailableCOMRefreshTimer.Tick
         If Not SerialPort.IsOpen And Not SerialPortComboBox.DroppedDown Then
             SerialPortComboBox.Items.Clear()
             For Each sp As String In My.Computer.Ports.SerialPortNames
@@ -146,29 +146,58 @@ Public Class VBSerialForm
         Dim bytes(numberofBytes - 1) As Byte
 
         SerialPort.Read(bytes, 0, numberofBytes)
-        'MsgBox("received")
+        For i = 0 To bytes.Length - 1
+            Me.receivedData.Enqueue(bytes(i))
 
-        For Each receivedByte In bytes
-            Me.receivedData.Enqueue(receivedByte)
-            'additem(receivedByte.ToString)
         Next
 
     End Sub
 
-    Private Sub ReceivedDataDisplayTimer_Tick(sender As Object, e As EventArgs) Handles ReceivedDataDisplayTimer.Tick
+    Private Sub SerialDataUpdateTimer_Tick(sender As Object, e As EventArgs) Handles SerialDataUpdateTimer.Tick
+        Dim receivedByte As Byte
+        Dim analogMSB As Byte
+        Dim analogLSB As Byte
+        Dim analogValue As Integer
+        Dim analogVoltage As Double
+        Dim analogTemperature As Double
+
+        'Add received data to the listbox
         If receivedData.Count <> 0 Then
             For i = 0 To receivedData.Count - 1
-                ReceivedListBox.Items.Add(Hex(receivedData.Dequeue))
+                receivedByte = receivedData.Dequeue
+
+                If receivedByte = &H24 Then
+                    'PIC packet start byte received, handle data received
+                    analogMSB = receivedData.Dequeue
+                    analogLSB = receivedData.Dequeue
+                    i += 2
+                    ReceivedListBox.Items.Add($"{Hex(receivedByte)} {Hex(analogMSB)} {Hex(analogLSB)}")
+                Else
+                    'if did not receive PIC start byte, add to listbox as single byte
+                    ReceivedListBox.Items.Add(Hex(receivedByte))
+                End If
+
                 If ReceivedListBox.Items.Count > 10 Then
                     ReceivedListBox.Items.RemoveAt(0)
                 End If
+
             Next
             ReceivedListBox.SelectedIndex = ReceivedListBox.Items.Count - 1
         End If
+
+        'update the analog values
+        analogValue = (CInt(analogMSB) * 256) + CInt(analogLSB)
+        analogVoltage = analogValue * (5 / 1023)
+        analogTemperature = analogVoltage / 0.01
+        AnalogLabel.Text = CStr(analogValue)
+        AnalogVoltageLabel.Text = $"{analogVoltage.ToString("0.000")} Volts"
+        TemperatureLabel.Text = $"{analogTemperature.ToString("0.000")} °F"
+
+        'call the ControlPIC sub to update the servo value and request updated analog
+        ControlPIC(ServoTrackBar.Value)
     End Sub
 
     Private Sub ServoTrackBar_Scroll(sender As Object, e As EventArgs) Handles ServoTrackBar.Scroll
         ServoPositionLabel.Text = CStr(ServoTrackBar.Value)
-        ControlPIC(ServoTrackBar.Value)
     End Sub
 End Class
