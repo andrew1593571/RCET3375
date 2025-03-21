@@ -168,10 +168,14 @@ Public Class VBSerialForm
 
                 If receivedByte = &H24 Then
                     'PIC packet start byte received, handle data received
-                    analogMSB = receivedData.Dequeue
-                    analogLSB = receivedData.Dequeue
-                    i += 2
-                    ReceivedListBox.Items.Add($"{Hex(receivedByte)} {Hex(analogMSB)} {Hex(analogLSB)}")
+                    Try
+                        analogMSB = receivedData.Dequeue
+                        analogLSB = receivedData.Dequeue
+                        i += 2
+                        ReceivedListBox.Items.Add($"{Hex(receivedByte)} {Hex(analogMSB)} {Hex(analogLSB)}")
+                    Catch ex As Exception
+                        Exit Sub
+                    End Try
                 Else
                     'if did not receive PIC start byte, add to listbox as single byte
                     ReceivedListBox.Items.Add(Hex(receivedByte))
