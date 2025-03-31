@@ -14,6 +14,8 @@
 ;***********************************************
 RECMODE EQU H'0020'	;STORES THE MODE FLAGS
 TMRCOUNT EQU H'0021'	;TIMER INTERRUPT COUNT
+PCOUNT EQU H'0022'	;PLAY COUNT FOR PLAYBACK
+RCOUNT EQU H'0023'	;RECORD COUNT DURING RECORD
 
  
 ;***********************************************
